@@ -144,4 +144,353 @@
     background: #f5f3ef;
     border-left: 3px solid var(--line);
     padding: 8px 12px;
-    border-r
+    border-radius: 0 6px 6px 0;
+    margin-top: 12px;
+    line-height: 1.7;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--paper);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200, 96, 42, 0.1);
+    background: #fff;
+  }
+  input[type="text"]::placeholder { color: #b8b0a4; }
+
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--ink);
+    background: var(--paper);
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200, 96, 42, 0.1);
+    background: #fff;
+  }
+  textarea::placeholder { color: #b8b0a4; }
+
+  .char-count { text-align: right; font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  .slider-wrap { margin-top: 8px; }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent) var(--val, 50%), var(--line) var(--val, 50%));
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(200,96,42,0.4);
+    cursor: pointer;
+  }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .slider-value { text-align: center; font-size: 28px; font-family: 'Noto Serif JP', serif; font-weight: 700; color: var(--accent); margin-top: 8px; line-height: 1; }
+
+  .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tag-btn {
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    color: var(--muted);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tag-btn:hover { border-color: var(--accent-light); color: var(--accent); }
+  .tag-btn.active { background: var(--highlight); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+  .submit-wrap { margin-top: 32px; animation: fadeUp 0.5s 0.5s ease both; }
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn:hover { background: #b35524; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,96,42,0.35); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .done-msg {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .done-msg .done-icon { font-size: 56px; margin-bottom: 16px; }
+  .done-msg h2 { font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .done-msg p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .footer-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 40px; line-height: 1.8; }
+
+  @media (max-width: 480px) {
+    .section { padding: 22px 18px; }
+    body { padding: 32px 14px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="header">
+    <div class="label-tag">JOB TRAINING</div>
+    <h1>本日の<span>ジョブトレ</span><br>ふりかえりシート</h1>
+    <div class="date-chip">📅 <span id="todayDate"></span></div>
+    <p class="header-desc">
+      本日のジョブトレを受けての感想・学び・ご質問を教えてください。<br>
+      難しく考えなくて大丈夫◎「まずは〇〇を意識したい！」など、一言でもOKです！
+    </p>
+  </div>
+
+  <div id="formArea">
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🙋</div>
+        <div>
+          <div class="section-title">① お名前</div>
+          <div class="section-hint">ニックネームでもOKです</div>
+        </div>
+      </div>
+      <input type="text" id="nameText" placeholder="例：田中　太郎　／　たなか">
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📋</div>
+        <div>
+          <div class="section-title">② 本日の研修内容</div>
+          <div class="section-hint">本日扱ったテーマや内容を簡単に記入してください</div>
+        </div>
+      </div>
+      <input type="text" id="trainingContent" placeholder="例：ビジネスマナー（挨拶・身だしなみ）　／　報連相の基本">
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🧠</div>
+        <div>
+          <div class="section-title">③ 本日の内容、どのくらい理解できましたか？</div>
+          <div class="section-hint">スライダーで直感的に教えてください</div>
+        </div>
+      </div>
+      <div class="slider-wrap">
+        <input type="range" id="understandSlider" min="0" max="100" value="50" oninput="updateSlider(this)">
+        <div class="slider-labels">
+          <span>まだよくわからない</span>
+          <span>バッチリ理解できた！</span>
+        </div>
+        <div class="slider-value" id="sliderVal">50%</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-green">✏️</div>
+        <div>
+          <div class="section-title">④ 学んだこと・感想</div>
+          <div class="section-hint">気づいたこと・印象に残ったことなど、なんでも◎</div>
+        </div>
+      </div>
+      <textarea id="impressionText" rows="5" maxlength="500"
+        placeholder="例：〇〇の話がためになりました！／はじめて知ったことがたくさんありました など"
+        oninput="countChars(this, 'cnt1')"></textarea>
+      <div class="char-count"><span id="cnt1">0</span> / 500文字</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-pink">❓</div>
+        <div>
+          <div class="section-title">⑤ 気になること・わからなかったこと</div>
+          <div class="section-hint">小さな疑問でも遠慮なく！次回の参考にします（特になければ空欄でOK）</div>
+        </div>
+      </div>
+      <textarea id="questionText" rows="4" maxlength="400"
+        placeholder="例：〇〇の場面でどう対応すればよいか迷いました／もう少し詳しく聞きたいことがありました など"
+        oninput="countChars(this, 'cnt2')"></textarea>
+      <div class="char-count"><span id="cnt2">0</span> / 400文字</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-yellow">🌱</div>
+        <div>
+          <div class="section-title">⑥ これから気をつけたいこと・やってみたいこと</div>
+          <div class="section-hint">「まずは〇〇を意識したい！」など一言でもOK！</div>
+        </div>
+      </div>
+      <textarea id="actionText" rows="4" maxlength="400"
+        placeholder="例：挨拶のときにもっとアイコンタクトを意識したい／報連相を積極的にやってみる など"
+        oninput="countChars(this, 'cnt3')"></textarea>
+      <div class="char-count"><span id="cnt3">0</span> / 400文字</div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-orange">💬</div>
+        <div>
+          <div class="section-title">⑦ 次回扱ってほしいテーマはある？</div>
+          <div class="section-hint">当てはまるものをすべて選んでください（複数OK）</div>
+        </div>
+      </div>
+      <div class="tag-group" id="tagGroup">
+        <button class="tag-btn" onclick="toggleTag(this)">コミュニケーション</button>
+        <button class="tag-btn" onclick="toggleTag(this)">ビジネスマナー</button>
+        <button class="tag-btn" onclick="toggleTag(this)">報連相</button>
+        <button class="tag-btn" onclick="toggleTag(this)">時間管理</button>
+        <button class="tag-btn" onclick="toggleTag(this)">メンタルヘルス</button>
+        <button class="tag-btn" onclick="toggleTag(this)">職場のルール</button>
+        <button class="tag-btn" onclick="toggleTag(this)">自己PR・面接</button>
+        <button class="tag-btn" onclick="toggleTag(this)">PCスキル</button>
+        <button class="tag-btn" onclick="toggleTag(this)">チームワーク</button>
+        <button class="tag-btn" onclick="toggleTag(this)">動画編集</button>
+        <button class="tag-btn" onclick="toggleTag(this)">チラシ</button>
+        <button class="tag-btn" onclick="toggleTag(this)">SNS</button>
+        <button class="tag-btn" onclick="toggleTag(this)">その他</button>
+      </div>
+      <div class="section-note">
+        ※ いただいたご希望はできる限り参考にしますが、必ずしも希望のテーマでの実施をお約束するものではありません。あらかじめご了承ください。
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-green">💌</div>
+        <div>
+          <div class="section-title">⑧ スタッフへひとこと（任意）</div>
+          <div class="section-hint">感謝・要望・なんでも！</div>
+        </div>
+      </div>
+      <textarea id="messageText" rows="3" maxlength="300"
+        placeholder="例：本日もありがとうございました！／次回も楽しみにしています など"
+        oninput="countChars(this, 'cnt4')"></textarea>
+      <div class="char-count"><span id="cnt4">0</span> / 300文字</div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="submit-btn" onclick="submitForm()">✉️ &nbsp;ふりかえりシートを送信する</button>
+    </div>
+
+  </div>
+
+  <div class="done-msg" id="doneMsg">
+    <div class="done-icon">🎉</div>
+    <h2>送信完了！お疲れさまでした</h2>
+    <p>
+      ふりかえりシートを受け取りました。<br>
+      次回のジョブトレに活かしていきます！<br>
+      本日もお疲れさまでした◎
+    </p>
+  </div>
+
+  <p class="footer-note">このフォームの内容は研修の改善のみに使用します。</p>
+
+</div>
+
+<script>
+  const d = new Date();
+  document.getElementById('todayDate').textContent =
+    `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日（${'日月火水木金土'[d.getDay()]}）`;
+
+  function updateSlider(el) {
+    const v = el.value;
+    el.style.setProperty('--val', v + '%');
+    document.getElementById('sliderVal').textContent = v + '%';
+  }
+  const s = document.getElementById('understandSlider');
+  s.style.setProperty('--val', '50%');
+
+  function countChars(el, id) {
+    document.getElementById(id).textContent = el.value.length;
+  }
+
+  function toggleTag(el) {
+    el.classList.toggle('active');
+  }
+
+  async function submitForm() {
+    const btn = document.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ 送信中...';
+
+    const tags = [...document.querySelectorAll('.tag-btn.active')]
+      .map(t => t.textContent).join('、') || 'なし';
+
+    const payload = {
+      name:            document.getElementById('nameText').value || '（未記入）',
+      trainingContent: document.getElementById('trainingContent').value || '（未記入）',
+      understand:      document.getElementById('understandSlider').value + '%',
+      impression:      document.getElementById('impressionText').value || '（未記入）',
+      question:        document.getElementById('questionText').value || '（未記入）',
+      action:          document.getElementById('actionText').value || '（未記入）',
+      tags:            tags,
+      message:         document.getElementById('messageText').value || '（未記入）'
+    };
+
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwZVtJ8wQJgTqYk5qzgCZwRhzsBfkJ1Qrhf2IkD05v6R19U3_4zRZnCPGkbxkcToATvAQ/exec';
+
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      document.getElementById('formArea').style.display = 'none';
+      document.getElementById('doneMsg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '✉️ ふりかえりシートを送信する';
+      alert('送信に失敗しました。もう一度お試しください。');
+    }
+  }
+</script>
+</body>
+</html>
